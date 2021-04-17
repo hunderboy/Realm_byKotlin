@@ -1,25 +1,19 @@
 package kr.co.everex.realmtest
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kr.co.everex.realmtest.databinding.ActivityMainBinding
-import io.realm.Realm
+import kr.co.everex.realmtest.databinding.ActivityTestBinding
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class TestActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityTestBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityTestBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view) // 뷰 바인딩 적용 완료
-
-        binding.button1.setOnClickListener{
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
-        }
 
 
     }
