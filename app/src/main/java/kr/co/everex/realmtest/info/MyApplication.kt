@@ -23,12 +23,13 @@ class MyApplication : Application() {
 
         // Realm 초기화
         Realm.init(this)
-//        val config : RealmConfiguration = RealmConfiguration.Builder()
-//            .name("RealmTest.realm") // 생성할 realm 파일 이름 지정
-//            .deleteRealmIfMigrationNeeded()
-//            .build()
-//
-//        Realm.setDefaultConfiguration(config)
+        val config : RealmConfiguration = RealmConfiguration.Builder()
+            .name("RealmTest.realm") // 생성할 realm 파일 이름 지정
+            .deleteRealmIfMigrationNeeded()
+            .allowWritesOnUiThread(true)
+            .build()
+
+        Realm.setDefaultConfiguration(config)
     }
 
 }

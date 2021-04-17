@@ -63,6 +63,30 @@
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:id="@+id/layout3"
+            android:layout_below="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_find_data_aboutID"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:text="Find data about id"
+                android:layout_weight="1"/>
+
+<!--            <Button-->
+<!--                android:id="@+id/btn_deletedata"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:text="Delete Data"-->
+<!--                android:layout_weight="1"/>-->
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 

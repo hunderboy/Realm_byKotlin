@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.data_input.*
 import kr.co.everex.realmtest.databinding.ActivityMainBinding
 import kr.co.everex.realmtest.databinding.ActivityTestBinding
@@ -28,6 +30,7 @@ class TestActivity : AppCompatActivity() {
         binding.btnReaddata.setOnClickListener(){ readData() }
         binding.btnUpdatedata.setOnClickListener(){ updateData() }
         binding.btnDeletedata.setOnClickListener(){ deleteData() }
+        binding.btnFindDataAboutID.setOnClickListener(){ findDataAboutID() }
     }
 
     fun deleteData() {
@@ -56,8 +59,13 @@ class TestActivity : AppCompatActivity() {
             val dataModel =
                 realm!!.where(DataModel::class.java).equalTo("id", id).findFirst()
 
-            edt_name.setText(dataModel?.name)
-            edt_email.setText(dataModel?.email)
+            realm!!.executeTransaction {
+                dataModel?.name = edt_name.text.toString()
+                dataModel?.email = edt_email.text.toString()
+            }
+
+//            edt_name.setText(dataModel?.name)
+//            edt_email.setText(dataModel?.email)
 
             Log.e("Status","Data Fetched !!!")
         }catch (e:Exception){
@@ -66,6 +74,7 @@ class TestActivity : AppCompatActivity() {
     }
 
     fun addData() {
+//        realm?.toString()?.let { Log.e("realm 상태", it) }
 
         try {
 
@@ -80,34 +89,51 @@ class TestActivity : AppCompatActivity() {
             Log.e("Status","Data Inserted !!!")
 
         }catch (e:Exception){
+            Log.e("뭐가 문제야?",e.toString())
             Log.e("Status","Something went Wrong !!!")
         }
+
     }
 
     fun readData() {
 
         try {
-
-            val dataModels: List<DataModel> =
-                realm!!.where(DataModel::class.java).findAll()
+            val dataModels: List<DataModel> = realm!!.where(DataModel::class.java).findAll()
 
             for (i in dataModels.indices) {
                 edt_id?.setText("" + dataModels[i].id)
                 edt_name?.setText(dataModels[i].name)
                 edt_email?.setText(dataModels[i].email)
-                Log.e("readData",
-                    dataModels[i].id.toString() + dataModels[i].name + dataModels[i].email)
+                Log.e("ReadData , index[$i]",
+                    dataModels[i].id.toString() +" , "+ dataModels[i].name +" , "+ dataModels[i].email)
             }
 
             Log.e("Status","Data Fetched !!!")
-
         } catch (e: Exception) {
             Log.e("Status","Something went Wrong !!!")
         }
     }
 
-    fun clearFields(){
+    fun findDataAboutID() {
 
+        try {
+            val id: Long = edt_id.text.toString().toLong()
+            val dataModel =
+                realm!!.where(DataModel::class.java).equalTo("id", id).findFirst()
+
+            Toast.makeText(this,
+                dataModel?.id.toString() +" , "+ dataModel?.name +" , "+ dataModel?.email, Toast.LENGTH_SHORT).show()
+
+            Log.e("찾은 데이터",dataModel?.id.toString() +" , "+ dataModel?.name +" , "+ dataModel?.email)
+            Log.e("Status","Data Fetched !!!")
+        } catch (e: Exception) {
+            Log.e("Status","Something went Wrong !!!")
+        }
+    }
+
+
+    // 텍스트 클리어
+    fun clearFields(){
         edt_id.setText("")
         edt_name.setText("")
         edt_email.setText("")

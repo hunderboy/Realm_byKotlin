@@ -11,6 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:inputType="number"
+    android:text="101"
     android:hint="user id"/>
 
 <EditText
@@ -18,6 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
+    android:text="wheeing"
     android:hint="user name"/>
 
 <EditText
@@ -25,6 +27,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
+    android:text="wheeing@naver.com"
     android:hint="user email"/>
 
 </LinearLayout>
