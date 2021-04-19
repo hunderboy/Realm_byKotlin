@@ -3,12 +3,9 @@ package kr.co.everex.realmtest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import io.realm.Realm
-import io.realm.RealmConfiguration
 import kotlinx.android.synthetic.main.data_input.*
-import kr.co.everex.realmtest.databinding.ActivityMainBinding
 import kr.co.everex.realmtest.databinding.ActivityTestBinding
 import kr.co.everex.realmtest.realmobject.DataModel
 
@@ -82,7 +79,9 @@ class TestActivity : AppCompatActivity() {
             dataModel.name = edt_name.text.toString()
             dataModel.email = edt_email.text.toString()
 
-            realm!!.executeTransaction { realm -> realm.copyToRealm(dataModel) }
+            realm!!.executeTransaction {
+                    realm -> realm.copyToRealm(dataModel)
+            }
 
             clearFields()
 
