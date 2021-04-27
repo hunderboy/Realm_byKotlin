@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
         }
+        binding.button2.setOnClickListener{
+            val intent = Intent(this, TodayExerciseActivity::class.java)
+            startActivity(intent)
+        }
 
 
     }

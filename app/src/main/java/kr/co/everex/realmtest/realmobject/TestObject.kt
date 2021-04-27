@@ -16,6 +16,9 @@ open class TestObject : RealmObject() {
 }
 
 
+/**
+ * TestObject Realm객체의 관리자
+ */
 class RealmManager(val realm: Realm) {
 
     fun find(name: String): TestObject? {
