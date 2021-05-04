@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RealmTest">
-        <activity android:name=".TodayExerciseActivity"></activity>
+        <activity android:name=".PainDataTestActivity"></activity>
+        <activity android:name=".TodayExerciseActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

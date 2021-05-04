@@ -22,53 +22,49 @@ class TodayExerciseActivity : AppCompatActivity() {
         binding = ActivityTodayExerciseBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view) // 뷰 바인딩 적용 완료
-
-
-
-
     }
 
-    private fun addData() {
-//        realm?.toString()?.let { Log.e("realm 상태", it) }
-
-        try {
-
-            dataModel.id = edt_id.text.toString().toInt()
-            dataModel.name = edt_name.text.toString()
-            dataModel.email = edt_email.text.toString()
-
-            realm!!.executeTransaction {
-                    realm -> realm.copyToRealm(dataModel)
-            }
-
-            clearFields()
-
-            Log.e("Status","Data Inserted !!!")
-
-        }catch (e:Exception){
-            Log.e("뭐가 문제야?",e.toString())
-            Log.e("Status","Something went Wrong !!!")
-        }
-
-    }
-    private fun readData() {
-
-        try {
-            val dataModels: List<DataModel> = realm!!.where(DataModel::class.java).findAll()
-
-            for (i in dataModels.indices) {
-                edt_id?.setText("" + dataModels[i].id)
-                edt_name?.setText(dataModels[i].name)
-                edt_email?.setText(dataModels[i].email)
-                Log.e("ReadData , index[$i]",
-                    dataModels[i].id.toString() +" , "+ dataModels[i].name +" , "+ dataModels[i].email)
-            }
-
-            Log.e("Status","Data Fetched !!!")
-        } catch (e: Exception) {
-            Log.e("Status","Something went Wrong !!!")
-        }
-    }
+//    private fun addData() {
+////        realm?.toString()?.let { Log.e("realm 상태", it) }
+//
+//        try {
+//
+//            dataModel.id = edt_id.text.toString().toInt()
+//            dataModel.name = edt_name.text.toString()
+//            dataModel.email = edt_email.text.toString()
+//
+//            realm!!.executeTransaction {
+//                    realm -> realm.copyToRealm(dataModel)
+//            }
+//
+//            clearFields()
+//
+//            Log.e("Status","Data Inserted !!!")
+//
+//        }catch (e:Exception){
+//            Log.e("뭐가 문제야?",e.toString())
+//            Log.e("Status","Something went Wrong !!!")
+//        }
+//
+//    }
+//    private fun readData() {
+//
+//        try {
+//            val dataModels: List<DataModel> = realm!!.where(DataModel::class.java).findAll()
+//
+//            for (i in dataModels.indices) {
+//                edt_id?.setText("" + dataModels[i].id)
+//                edt_name?.setText(dataModels[i].name)
+//                edt_email?.setText(dataModels[i].email)
+//                Log.e("ReadData , index[$i]",
+//                    dataModels[i].id.toString() +" , "+ dataModels[i].name +" , "+ dataModels[i].email)
+//            }
+//
+//            Log.e("Status","Data Fetched !!!")
+//        } catch (e: Exception) {
+//            Log.e("Status","Something went Wrong !!!")
+//        }
+//    }
 
 
 

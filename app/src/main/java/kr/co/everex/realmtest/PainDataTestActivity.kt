@@ -1,25 +1,28 @@
 package kr.co.everex.realmtest
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import io.realm.Realm
 import kotlinx.android.synthetic.main.data_input.*
-import kr.co.everex.realmtest.databinding.ActivityTestBinding
+import kr.co.everex.realmtest.databinding.ActivityMainBinding
+import kr.co.everex.realmtest.databinding.ActivityPainDataTestBinding
 import kr.co.everex.realmtest.realmobject.DataModel
+import kr.co.everex.realmtest.realmobject.RealmPainInfo
 
-class TestActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityTestBinding
+class PainDataTestActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityPainDataTestBinding
 
     // 데이터 초기화
     var realm: Realm? = null
-    private val dataModel = DataModel()
+    private val dataModel = RealmPainInfo()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTestBinding.inflate(layoutInflater)
+        binding = ActivityPainDataTestBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view) // 뷰 바인딩 적용 완료
 
@@ -48,7 +51,6 @@ class TestActivity : AppCompatActivity() {
             Log.e("Status","Something went Wrong !!!")
         }
     }
-
     fun updateData() {
 
         try {
@@ -70,12 +72,9 @@ class TestActivity : AppCompatActivity() {
             Log.e("Status","Something went Wrong !!!")
         }
     }
-
     fun addData() {
-//        realm?.toString()?.let { Log.e("realm 상태", it) }
-
         try {
-
+            // 데이터 모델
             dataModel.id = edt_id.text.toString().toInt()
             dataModel.name = edt_name.text.toString()
             dataModel.email = edt_email.text.toString()
@@ -112,7 +111,6 @@ class TestActivity : AppCompatActivity() {
             Log.e("Status","Something went Wrong !!!")
         }
     }
-
     fun findDataAboutID() {
         /**
          * ID가 같은 것이 있으면, 먼저 저장되어있던 것을 뽑아낸다.
@@ -136,10 +134,10 @@ class TestActivity : AppCompatActivity() {
 
     // 텍스트 클리어
     fun clearFields(){
-        edt_id.setText("")
-        edt_name.setText("")
-        edt_email.setText("")
+        binding.edtBeforePain.setText("")
+        binding.edtAfterPain.setText("")
+        binding.edtYear.setText("")
+        binding.edtMonth.setText("")
+        binding.edtDay.setText("")
     }
-
-
 }
