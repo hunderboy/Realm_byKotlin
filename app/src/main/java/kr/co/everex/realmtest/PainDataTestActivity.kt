@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.data_input.*
 import kr.co.everex.realmtest.databinding.ActivityMainBinding
 import kr.co.everex.realmtest.databinding.ActivityPainDataTestBinding
 import kr.co.everex.realmtest.realmobject.DataModel
+import kr.co.everex.realmtest.realmobject.PainInfo
 import kr.co.everex.realmtest.realmobject.RealmPainInfo
 
 class PainDataTestActivity : AppCompatActivity() {
@@ -53,36 +54,51 @@ class PainDataTestActivity : AppCompatActivity() {
     }
     fun updateData() {
         try {
-
-            val id: Long = edt_id.text.toString().toLong()
             val dataModel =
-                realm!!.where(DataModel::class.java).equalTo("id", id).findFirst()
+                realm!!.where(RealmPainInfo::class.java).equalTo("realmObjectType", "RealmPainInfo").findFirst()
+
+            Log.e("painInfoList 사이즈 = ",dataModel?.painInfoList?.size.toString())
+
+            val data = PainInfo()
+            data.year = binding.edtYear.text.toString().toInt()
+            data.month = binding.edtMonth.text.toString().toInt()
+            data.day = binding.edtDay.text.toString().toInt()
+            data.exerciseDay = binding.edtYear.text.toString()+"-"+binding.edtMonth.text.toString()+"-"+binding.edtDay.text.toString()
+
+            data.userID = binding.edtId.text.toString()
+            data.assignedProgram = binding.edtProgram.text.toString()
+            data.painInfoBeforeExercise = binding.edtBeforePain.text.toString().toInt()
+            data.painInfoAfterExercise = binding.edtAfterPain.text.toString().toInt()
 
             realm!!.executeTransaction {
-                dataModel?.name = edt_name.text.toString()
-                dataModel?.email = edt_email.text.toString()
+                dataModel?.painInfoList?.add(data) // 데이터 추가
             }
 
-//            edt_name.setText(dataModel?.name)
-//            edt_email.setText(dataModel?.email)
 
             Log.e("Status","Data Fetched !!!")
         }catch (e:Exception){
             Log.e("Status","Something went Wrong !!!")
         }
     }
+    /**
+     * 최초에 첫 통증 데이터 추가 시에만 실행되어야 함
+     * 그다은 통증 데이터 추가 시에는 모두 Update
+     */
     fun addData() {
         try {
-            dataModel.userID = binding.edtId.text.toString()
-            dataModel.assignedProgram = binding.edtProgram.text.toString()
-            dataModel.painInfoBeforeExercise = binding.edtBeforePain.text.toString().toInt()
-            dataModel.painInfoAfterExercise = binding.edtAfterPain.text.toString().toInt()
+            val data = PainInfo()
+            data.year = binding.edtYear.text.toString().toInt()
+            data.month = binding.edtMonth.text.toString().toInt()
+            data.day = binding.edtDay.text.toString().toInt()
+            data.exerciseDay = binding.edtYear.text.toString()+"-"+binding.edtMonth.text.toString()+"-"+binding.edtDay.text.toString()
 
-            dataModel.year = binding.edtYear.text.toString().toInt()
-            dataModel.month = binding.edtMonth.text.toString().toInt()
-            dataModel.day = binding.edtDay.text.toString().toInt()
+            data.userID = binding.edtId.text.toString()
+            data.assignedProgram = binding.edtProgram.text.toString()
+            data.painInfoBeforeExercise = binding.edtBeforePain.text.toString().toInt()
+            data.painInfoAfterExercise = binding.edtAfterPain.text.toString().toInt()
 
-            dataModel.exerciseDay = binding.edtYear.text.toString()+"-"+binding.edtMonth.text.toString()+"-"+binding.edtDay.text.toString()
+            dataModel.painInfoList.add(data)
+            Log.e("painInfoList 사이즈 = ",dataModel.painInfoList.size.toString())
 
             realm!!.executeTransaction {
                     realm -> realm.copyToRealm(dataModel)
@@ -94,21 +110,34 @@ class PainDataTestActivity : AppCompatActivity() {
         }
     }
     fun readData() {
-
         try {
             val dataModels: List<RealmPainInfo> = realm!!.where(RealmPainInfo::class.java).findAll()
-            Log.e("indices",dataModels.indices.toString()) // 마지막 인덱스 번호?
-            for (i in dataModels.indices) {
+//            Log.e("indices",dataModels.indices.toString()) // 마지막 인덱스 번호?
+//            for (i in dataModels.indices) {
+//                Log.e("ReadData , index[$i]",
+//                    dataModels[i].exerciseDay +" , "+
+//                            dataModels[i].year.toString() +" , "+
+//                            dataModels[i].month.toString() +" , "+
+//                            dataModels[i].day.toString() +" , "+
+//                            dataModels[i].userID +" , "+
+//                            dataModels[i].assignedProgram +" , "+
+//                            dataModels[i].painInfoBeforeExercise +" , "+    // 운동 전
+//                            dataModels[i].painInfoAfterExercise             // 운동 후
+//                )
+//            }
 
+            val dataList = dataModels[0].painInfoList.reversed()
+            Log.e("dataList",dataList.size.toString())
+            for (i in dataList.indices) {
                 Log.e("ReadData , index[$i]",
-                    dataModels[i].exerciseDay +" , "+
-                            dataModels[i].year.toString() +" , "+
-                            dataModels[i].month.toString() +" , "+
-                            dataModels[i].day.toString() +" , "+
-                            dataModels[i].userID +" , "+
-                            dataModels[i].assignedProgram +" , "+
-                            dataModels[i].painInfoBeforeExercise +" , "+    // 운동 전
-                            dataModels[i].painInfoAfterExercise             // 운동 후
+                    dataList[i]?.exerciseDay +" , "+
+                            dataList[i]?.year.toString() +" , "+
+                            dataList[i]?.month.toString() +" , "+
+                            dataList[i]?.day.toString() +" , "+
+                            dataList[i]?.userID +" , "+
+                            dataList[i]?.assignedProgram +" , "+
+                            dataList[i]?.painInfoBeforeExercise +" , "+    // 운동 전
+                            dataList[i]?.painInfoAfterExercise             // 운동 후
                 )
             }
 
