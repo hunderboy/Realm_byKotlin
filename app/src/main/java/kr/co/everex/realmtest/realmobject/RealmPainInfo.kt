@@ -24,7 +24,6 @@ open class RealmPainInfo  : RealmObject() {
 //    var painInfoAfterExercise:Int = 0   // 운동 후 통증정보 (0~10)
 
 
-    @PrimaryKey
     var realmObjectType : String = "RealmPainInfo"
     var painInfoList : RealmList<PainInfo> = RealmList()
 

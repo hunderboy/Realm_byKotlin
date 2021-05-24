@@ -41,7 +41,7 @@ class PainDataTestActivity : AppCompatActivity() {
             val id: Long = edt_id.text.toString().toLong()
             val dataModel =
                 realm!!.where(DataModel::class.java).equalTo("id", id).findFirst()
-            realm!!.executeTransaction {
+            val result = realm!!.executeTransaction {
                 dataModel?.deleteFromRealm()
             }
             clearFields()
@@ -100,9 +100,12 @@ class PainDataTestActivity : AppCompatActivity() {
             dataModel.painInfoList.add(data)
             Log.e("painInfoList 사이즈 = ",dataModel.painInfoList.size.toString())
 
-            realm!!.executeTransaction {
-                    realm -> realm.copyToRealm(dataModel)
+            val result = realm!!.executeTransaction {
+                realm -> realm.copyToRealm(dataModel)
             }
+            Log.e("createResult",result.toString())
+
+
             clearFields()
             Log.e(TAG,"통증 데이터 추가됨 !!!")
         }catch (e:Exception){
@@ -112,20 +115,6 @@ class PainDataTestActivity : AppCompatActivity() {
     fun readData() {
         try {
             val dataModels: List<RealmPainInfo> = realm!!.where(RealmPainInfo::class.java).findAll()
-//            Log.e("indices",dataModels.indices.toString()) // 마지막 인덱스 번호?
-//            for (i in dataModels.indices) {
-//                Log.e("ReadData , index[$i]",
-//                    dataModels[i].exerciseDay +" , "+
-//                            dataModels[i].year.toString() +" , "+
-//                            dataModels[i].month.toString() +" , "+
-//                            dataModels[i].day.toString() +" , "+
-//                            dataModels[i].userID +" , "+
-//                            dataModels[i].assignedProgram +" , "+
-//                            dataModels[i].painInfoBeforeExercise +" , "+    // 운동 전
-//                            dataModels[i].painInfoAfterExercise             // 운동 후
-//                )
-//            }
-
             val dataList = dataModels[0].painInfoList.reversed()
             Log.e("dataList",dataList.size.toString())
             for (i in dataList.indices) {

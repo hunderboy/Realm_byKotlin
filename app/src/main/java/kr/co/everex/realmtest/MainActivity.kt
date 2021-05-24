@@ -28,6 +28,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, PainDataTestActivity::class.java)
             startActivity(intent)
         }
+        binding.button4.setOnClickListener{
+            val intent = Intent(this, RealmAsyncTestActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
     }
