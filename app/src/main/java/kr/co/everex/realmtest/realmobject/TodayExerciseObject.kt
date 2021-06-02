@@ -2,12 +2,14 @@ package kr.co.everex.realmtest.realmobject
 
 import io.realm.Realm
 import io.realm.RealmObject
+import io.realm.Sort
 import kr.co.everex.realmtest.TestObject
 
 open class TodayExerciseObject : RealmObject() {
-    lateinit var name: String
-    lateinit var phone: String
-    lateinit var email: String
+    var name: String = "기본"
+    var phone: String = "기본"
+    var email: String = "기본"
+    var exerciseDate: String = "0000-00-00"  // 운동 일자
 }
 
 /**
@@ -15,24 +17,33 @@ open class TodayExerciseObject : RealmObject() {
  */
 class TodayExerciseRealmManager(val realm: Realm) {
     /*** 맨처음에 찾은 데이터 추출 */
-    fun find(name: String): TestObject? {
-        return realm.where(TestObject::class.java).equalTo("name", name).findFirst()
+    fun find(name: String): TodayExerciseObject? {
+        return realm.where(TodayExerciseObject::class.java).equalTo("name", name).findFirst()
     }
     /*** 데이터 모두 추출*/
-    fun findAll(): List<TestObject> {
-        return realm.where(TestObject::class.java).findAll()
+    fun findAll(): List<TodayExerciseObject> {
+        return realm.where(TodayExerciseObject::class.java).findAll()
+    }
+    // 순자 배열
+    fun findAllbySorting() : List<TodayExerciseObject>{
+        return realm.where(TodayExerciseObject::class.java).findAll()
+                .sort("exerciseDate", Sort.DESCENDING)
     }
     /*** Realm 객체 생성*/
-    fun create(curdata: TestObject) {
+    fun create(todayText: String) {
         realm.beginTransaction()
-
-        val data = realm.createObject(TestObject::class.java)
-        data.name = curdata.name
-        data.phone = curdata.phone
-        data.email = curdata.email
-
+        val data = realm.createObject(TodayExerciseObject::class.java)
+//        data.name = curdata.name
+//        data.phone = curdata.phone
+//        data.email = curdata.email
+        data.exerciseDate = todayText // 운동 일자
         realm.commitTransaction()
     }
+
+
+
+
+
     /*** Realm 객체 수정 */
     fun update(name: String, curdata: TestObject) {
         realm.beginTransaction()
@@ -52,56 +63,3 @@ class TodayExerciseRealmManager(val realm: Realm) {
     }
 }
 
-//    private fun deleteData() {
-//
-//        try {
-//            val id: Long = edt_id.text.toString().toLong()
-//            val dataModel =
-//                realm!!.where(DataModel::class.java).equalTo("id", id).findFirst()
-//            realm!!.executeTransaction {
-//                dataModel?.deleteFromRealm()
-//            }
-//            clearFields()
-//
-//            Log.e("Status","Data deleted !!!")
-//
-//        }catch (e:Exception){
-//            Log.e("Status","Something went Wrong !!!")
-//        }
-//    }
-//    private fun updateData() {
-//
-//        try {
-//
-//            val id: Long = edt_id.text.toString().toLong()
-//            val dataModel =
-//                realm!!.where(DataModel::class.java).equalTo("id", id).findFirst()
-//
-//            realm!!.executeTransaction {
-//                dataModel?.name = edt_name.text.toString()
-//                dataModel?.email = edt_email.text.toString()
-//            }
-//
-////            edt_name.setText(dataModel?.name)
-////            edt_email.setText(dataModel?.email)
-//
-//            Log.e("Status","Data Fetched !!!")
-//        }catch (e:Exception){
-//            Log.e("Status","Something went Wrong !!!")
-//        }
-//    }
-//    private fun findDataAboutID() {
-//        try {
-//            val id: Long = edt_id.text.toString().toLong()
-//            val dataModel =
-//                realm!!.where(DataModel::class.java).equalTo("id", id).findFirst()
-//
-//            Toast.makeText(this,
-//                dataModel?.id.toString() +" , "+ dataModel?.name +" , "+ dataModel?.email, Toast.LENGTH_SHORT).show()
-//
-//            Log.e("찾은 데이터",dataModel?.id.toString() +" , "+ dataModel?.name +" , "+ dataModel?.email)
-//            Log.e("Status","Data Fetched !!!")
-//        } catch (e: Exception) {
-//            Log.e("Status","Something went Wrong !!!")
-//        }
-//    }
